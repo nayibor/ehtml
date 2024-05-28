@@ -1,5 +1,5 @@
 {application, ehtml,
- [{description, "An OTP library"},
+ [{description, "A library for converting erlang terms into html and vice-versa"},
   {vsn, "0.1.0"},
   {registered, []},
   {applications,
