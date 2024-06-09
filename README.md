@@ -113,60 +113,10 @@ iex(20)> :ehtml.ehtml_expand({:table,[{:name,"table"},{:id,"table"}],Enum.map(1 
 
 ```
 
-using templates
-=====
-this is for creating ehtml templates which can be used reused later 
-with variable bindings.
-```erlang
-%% ehtml_expander/1: an EHTML optimizer
-%%
-%% This is an optimization for generating the same EHTML multiple times with
-%% only small differences, by using fast re-usable templates that contain
-%% variables. The variables are atoms starting with a dollar sign, like
-%% '$myvar'. There are two functions: ehtml_expander/1 to create an optimized
-%% EHTML template, then ehtml_apply/2 takes a template and a dictionary of
-%% variable values and generates the actual HTML.
-%%
-%% If you are spending a lot of time regenerating similar EHTML fragments then
-%% this is for you.
-%%
-%% Variables can appear in three places:
-%% - As a body element, where you would normally have a tag. The values of
-%%   these variables are expanded as EHTML.
-%% - As the name or value of an attribute. The values of these variables are
-%%   strings.
-%% - As the CDR of an attribute list. The values of these variables are
-%%   key-value lists of more attributes.
-%%
-```
-
-templating example below
-```erlang
-    %% Expr is a template containing variables.
-    Expr = {html, [{title, '$title'}],
-            {body, [],
-             [{h1, [], '$heading'},
-              '$text']}},
-    %% Expand is an expander that can be used to quickly generate the HTML
-    %% specified in Expr.
-    Expand = ehtml_expander(Expr),
-    %% Bs{1,2} are lists of variable bindings to fill in the gaps in the
-    %% template. We can reuse the template on many sets of bindings, and this
-    %% is much faster than doing a full ehtml of the whole page each time.
-    Bs1 = [{title, "First page"},
-           {heading, "Heading"},
-           {text, {pre_html, "<b>My text!</b>"}}],
-    Bs2 = [{title, "Second page"},
-           {heading, "Foobar"},
-           {text, {b, [], "My text again!"}}],
-    %% Page1 and Page2 are generated from the template. They are I/O lists
-    %% (i.e. deep lists of strings and binaries, ready to ship)
-    Page1 = ehtml_apply(Expand, Bs1),
-    Page2 = ehtml_apply(Expand, Bs2).
-```
 
 
 for converting html to erlang term format example below
+=====
 ```erlang
 7> ehtml:h2e(<<"<html><head><title>hello world</title></head><body><p>hello world</p></body></html>">>).
 {ehtml,[], 
@@ -174,6 +124,10 @@ for converting html to erlang term format example below
      [{head,[],{title,[],"hello world"}},
          {body,[],{p,[],"hello world"}}]}]}  	 
 8> 
+99> ehtml:h2e(<<"<p><h1 name=\"header\" id=\"header\">header1</h1></p>">>).
+{ehtml,[],
+    [{p,[],{h1,[{name,"header"},{id,"header"}],"header1"}}]}
+
 ```
 
 

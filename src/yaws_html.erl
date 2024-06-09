@@ -23,6 +23,7 @@ parse(Name,Out) ->
             Error
     end.
 
+-spec h2e(list()|binary()) -> yaws_ehtml:ehtml().
 h2e(Input) when is_binary(Input)->
     h2e(binary_to_list(Input));
 
