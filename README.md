@@ -116,6 +116,7 @@ iex(20)> :ehtml.ehtml_expand({:table,[{:name,"table"},{:id,"table"}],Enum.map(1 
 
 
 for converting html to erlang term format example below
+=====
 ```erlang
 7> ehtml:h2e(<<"<html><head><title>hello world</title></head><body><p>hello world</p></body></html>">>).
 {ehtml,[], 
