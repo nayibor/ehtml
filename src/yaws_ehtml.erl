@@ -1,11 +1,15 @@
 
 -module(yaws_ehtml).
 
--export([ehtml_expand/1, ehtml_expander/1, ehtml_apply/2,
-         ehtml_expander_test/0]).
+-export([ehtml_expand/1]).
+-export_type([ehtml/0,tag/0,attr/0,key/0,value/0,body/0]).
 
-
-
+-opaque ehtml() :: [ehtml()] | {tag(),attr(),body()} | {tag(),attr()} | {tag()} | {Module :: atom(),Fun :: atom(),[Args :: term()]} | fun() | binary() | char().
+-opaque tag() :: atom().
+-opaque attr() :: [{key(),value()}].
+-opaque key() :: atom().
+-opaque value() :: string() | binary() | atom() | integer() | float() | {Module :: atom(),Fun :: atom(),[Args :: term()]} | fun().
+-opaque body() :: ehtml().
 
 %% ------------------------------------------------------------
 %% simple erlang term representation of HTML:
@@ -19,6 +23,7 @@
 %%         {Module, Fun, [Args]} | fun/0
 %% Body  = EHTML
 
+-spec ehtml_expand(ehtml()) -> iolist().
 ehtml_expand(Ch) when Ch >= 0, Ch =< 255 -> Ch; %yaws_api:htmlize_char(Ch);
 ehtml_expand(Bin) when is_binary(Bin) -> Bin; % yaws_api:htmlize(Bin);
 
