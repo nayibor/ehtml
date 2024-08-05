@@ -9,7 +9,7 @@ conversion of erlang terms to html and vice versa.
 
 erlang to html
 =====
-to convert erlang to html you use the `ehtml:expand/1` functions.
+to convert erlang to html you use the `ehtml:ehtml_expand/1` function.
 you can use the rules below for the construction of the erlang terms.
 
 ```erlang
